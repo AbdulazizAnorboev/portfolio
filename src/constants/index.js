@@ -198,25 +198,27 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Car Rent",
+    name: "Tomato Disease Detection",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "This project aims to detect and classify various diseases in tomatoes using the YOLOv5 deep learning model. It is designed to assist farmers and agricultural technologists by providing a tool that can recognize common tomato ailments from images, helping in early diagnosis and treatment to improve crop health and yield.",
     tags: [
       {
-        name: "react",
+        name: "pytorch",
         color: "blue-text-gradient",
       },
       {
-        name: "mongodb",
+        name: "roboflow",
         color: "green-text-gradient",
       },
       {
-        name: "tailwind",
+        name: "ultralytics",
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
-    source_code_link: "https://github.com/",
+    image:
+      "https://github.com/AbdulazizAnorboev/Tomato-Disease-Detection/raw/main/results/val_batch0_pred.jpg",
+    source_code_link:
+      "https://github.com/AbdulazizAnorboev/Tomato-Disease-Detection",
   },
   {
     name: "Job IT",
