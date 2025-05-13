@@ -8,6 +8,7 @@
   import Resume from './components/Resume.svelte';
   import Techs from './components/Techs.svelte';
   import Work from './components/Work.svelte';
+  import Socials from './components/Socials.svelte';
 
   let activeSection = '';
   let sectionElements: { id: string; offset: number }[] = [];
@@ -63,10 +64,12 @@
 
     <div class="space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
       <!-- Nav -->
+
       <SidebarNav {activeSection} />
 
       <!-- Sections -->
       <div class="lg:w-3/4 space-y-6">
+        <Socials />
         <About />
         <Techs />
         <Work />
