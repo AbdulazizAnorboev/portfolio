@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { derived } from 'svelte/store';
+  import { techs } from '../stores/store';
   import { lang } from '../stores/lang';
-  import { getTechsData } from '../data/techs';
-  $: technologies = getTechsData($lang);
+  let { title, suptitle } = $props();
 </script>
 
 <div
@@ -10,19 +11,24 @@
 >
   <h6
     class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15"
-    data-backdrop-text={technologies.section}
+    data-backdrop-text={suptitle}
   >
-    {technologies.section}
+    {title}
   </h6>
   <div class="technologies">
     <div class="tech">
-      {#each technologies.data as { icon, name }}
-        <div class="tech-item">
+      {#each $techs as { icon, name, link }}
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="tech-item"
+        >
           <div class="tech-icon">
             <img src={icon} alt={name} />
           </div>
           <div class="tech-tooltip">{name}</div>
-        </div>
+        </a>
       {/each}
     </div>
   </div>

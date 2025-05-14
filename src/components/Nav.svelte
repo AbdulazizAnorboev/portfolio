@@ -1,12 +1,7 @@
 <script lang="ts">
-  export let activeSection: string;
   import { lang } from '../stores/lang';
-  import { getContactData } from '../data/contact';
-  import { getNavData } from '../data/nav';
   import Socials from './Socials.svelte';
-
-  $: contact = getContactData($lang);
-  $: items = getNavData($lang);
+  const { activeSection, items } = $props();
 </script>
 
 <div
@@ -32,6 +27,3 @@
     {/each}
   </ul>
 </div>
-
-<style>
-</style>

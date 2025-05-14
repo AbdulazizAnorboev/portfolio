@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { derived } from 'svelte/store';
+  import { publications } from '../stores/store';
   import { lang } from '../stores/lang';
-  import { getPublicationsData } from '../data/publication';
-  $: publication = getPublicationsData($lang);
+  let { title, suptitle, view_paper } = $props();
 </script>
 
 <div
@@ -11,19 +12,19 @@
   <div class="md:w-4/5 lg:w-3/4">
     <h6
       class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 mb-5 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15"
-      data-backdrop-text={publication.section}
+      data-backdrop-text={suptitle}
     >
-      {publication.section}
+      {title}
     </h6>
     <h2
       class="text-3xl lg:text-4xl font-poppins font-semibold mb-3 lg:mb-4 dark:text-white"
     >
-      {publication.section}
+      {title}
     </h2>
   </div>
   <div class=" divide-y divide-dashed divide-black/20">
     <!-- Services box 1 -->
-    {#each publication.data as { title, authors, venue, link }}
+    {#each $publications as { title, authors, publisher, link }}
       <div class="publication-card">
         <h4
           class="font-poppins font-medium text-lg lg:text-xl mt-2 mb-1 lg:mt-3 lg:mb-2 dark:text-white"
@@ -32,11 +33,9 @@
         </h4>
         <p class="text-pColor dark:text-white/70">{authors}</p>
         <p class="publication-venue text-pColor dark:text-white/60">
-          {venue}
+          {publisher}
         </p>
-        <a class="publication-link" href={link} target="_blank"
-          >{publication.view_paper}</a
-        >
+        <a class="publication-link" href={link} target="_blank">{view_paper}</a>
       </div>
     {/each}
   </div>

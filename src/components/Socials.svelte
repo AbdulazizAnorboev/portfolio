@@ -1,19 +1,25 @@
 <script lang="ts">
+  import { derived } from 'svelte/store';
+  import { user } from '../stores/store';
   import { lang } from '../stores/lang';
-  import { getContactData } from '../data/contact';
-
-  $: contact = getContactData($lang);
+  import { formatData } from '../lib/formatters.ts';
+  const data = derived([user, lang], ([$user, $lang]) => {
+    if ($user) {
+      return formatData([$user], $lang)[0];
+    }
+    return null;
+  });
 </script>
 
 <div class="socials">
-  {#each contact.data.socials as { logo, link, alt }}
-    <a class="icon" href={link} target="_blank" rel="noopener noreferrer">
-      <img src={logo} {alt} class="icon-image" />
+  {#each $data.socials as { icon, url, name }}
+    <a class="icon" href={url} target="_blank" rel="noopener noreferrer">
+      <img src={icon} {name} class="icon-image" />
     </a>
   {/each}
   <a
     class="custom-button"
-    href={`mailto:${contact.data.email}`}
+    href={`mailto:${$data.email}`}
     target="_blank"
     rel="noopener noreferrer"
   >
@@ -31,11 +37,11 @@
         d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"
       />
     </svg>
-    {contact.data.email}
+    {$data.email}
   </a>
   <a
     class="custom-button phone"
-    href={`tel:${contact.data.phone}`}
+    href={`tel:${$data.phone}`}
     target="_blank"
     rel="noopener noreferrer"
   >
@@ -53,9 +59,9 @@
       />
     </svg>
 
-    {contact.data.phone}
+    {$data.phone}
   </a>
-  <a class="custom-button download" href={contact.data.cv} download>
+  <a class="custom-button download" href={$data.cv} download>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"

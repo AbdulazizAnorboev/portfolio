@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import About from './components/About.svelte';
   import Contact from './components/Contact.svelte';
   import Header from './components/Header.svelte';
@@ -9,8 +9,15 @@
   import Techs from './components/Techs.svelte';
   import Work from './components/Work.svelte';
   import Socials from './components/Socials.svelte';
-
-  let activeSection = '';
+  import { userQuery } from './lib/queries.ts';
+  import { sanityClient } from './sanityClient.js';
+  import { formatData } from './lib/formatters.ts';
+  import { loading, fetchData } from './stores/store.ts';
+  import { lang } from './stores/lang.ts';
+  import { getSectionData } from './lib/translations.ts';
+  import { Section } from './lib/types.ts';
+  import type { User } from './lib/types.ts';
+  let activeSection = $state('');
   let sectionElements: { id: string; offset: number }[] = [];
 
   const sectionIds = [
@@ -31,13 +38,13 @@
       };
     });
   }
-
-  onMount(() => {
+  onMount(async () => {
+    await fetchData();
+    await tick();
     setTimeout(() => {
       updateSections();
       window.addEventListener('resize', updateSections);
     }, 100);
-
     const onScroll = () => {
       const scrollY = window.scrollY + 100; // Add offset buffer
       let current = '';
@@ -48,7 +55,6 @@
       }
       activeSection = current;
     };
-
     window.addEventListener('scroll', onScroll);
 
     return () => {
@@ -59,81 +65,82 @@
 </script>
 
 <main>
-  <div class="container max-w-[1320px] mx-auto px-5 xl:px-3">
-    <Header />
-
-    <div class="space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
-      <!-- Nav -->
-
-      <SidebarNav {activeSection} />
-
-      <!-- Sections -->
-      <div class="lg:w-3/4 space-y-6">
-        <Socials />
-        <About />
-        <Techs />
-        <Work />
-        <Publication />
-        <Resume />
-        <Contact />
+  {#if $loading}
+    <div
+      class="preloader z-30 fixed top-0 left-0 visible opacity-100 bg-black w-full h-full text-center transition-all ease-out duration-500"
+    >
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex space-x-3 font-mono font-normal uppercase text-white"
+      >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader"
+          >L</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-100"
+          >O</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-200"
+          >A</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-300"
+          >D</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-400"
+          >I</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-500"
+          >N</span
+        >
+        <span
+          class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-600"
+          >G</span
+        >
       </div>
     </div>
-  </div>
-  <!-- end container -->
+  {:else}
+    <div class="container max-w-[1320px] mx-auto px-5 xl:px-3">
+      <Header />
 
-  <!-- Background Decorational Lines -->
-  <div class="-z-[1] fixed top-0 left-0 overflow-hidden w-full h-full">
-    <div
-      class="absolute top-0 left-0 w-1/4 lg:w-1/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine"
-    ></div>
-    <div
-      class="absolute top-0 left-0 w-2/4 lg:w-2/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-2"
-    ></div>
-    <div
-      class="absolute top-0 left-0 w-3/4 lg:w-3/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-6"
-    ></div>
-    <div
-      class="hidden lg:block absolute top-0 left-0 w-4/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-4"
-    ></div>
-  </div>
+      <div class="space-y-6 lg:flex lg:space-x-8 lg:space-y-0 xl:space-x-12">
+        <!-- Nav -->
 
-  <!-- Page Preloader -->
-  <!-- <div
-    class="preloader z-30 fixed top-0 left-0 visible opacity-100 bg-black w-full h-full text-center transition-all ease-out duration-500"
-  >
-    <div
-      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex space-x-3 font-mono font-normal uppercase text-white"
-    >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader"
-        >L</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-100"
-        >O</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-200"
-        >A</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-300"
-        >D</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-400"
-        >I</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-500"
-        >N</span
-      >
-      <span
-        class="opacity-100 inline-block transition ease-linear duration-100 animate-loader animation-delay-600"
-        >G</span
-      >
+        <SidebarNav
+          {activeSection}
+          items={getSectionData(Section.nav, $lang)}
+        />
+
+        <!-- Sections -->
+        <div class="lg:w-3/4 space-y-6">
+          <Socials />
+          <About {...getSectionData(Section.about, $lang)} />
+          <Techs {...getSectionData(Section.techs, $lang)} />
+          <Work {...getSectionData(Section.portfolio, $lang)} />
+          <Publication {...getSectionData(Section.publication, $lang)} />
+          <Resume {...getSectionData(Section.resume, $lang)} />
+          <Contact {...getSectionData(Section.contact, $lang)} />
+        </div>
+      </div>
     </div>
-  </div> -->
+    <div class="-z-[1] fixed top-0 left-0 overflow-hidden w-full h-full">
+      <div
+        class="absolute top-0 left-0 w-1/4 lg:w-1/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine"
+      ></div>
+      <div
+        class="absolute top-0 left-0 w-2/4 lg:w-2/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-2"
+      ></div>
+      <div
+        class="absolute top-0 left-0 w-3/4 lg:w-3/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-6"
+      ></div>
+      <div
+        class="hidden lg:block absolute top-0 left-0 w-4/5 h-full border-r border-black/10 dark:border-white/15 before:content-[''] before:z-[1] before:absolute before:-top-20 before:-right-[1px] before:w-[1px] before:h-20 before:bg-gradient-to-b before:from-transparent before:to-black/50 dark:before:to-white/50 before:animate-bgLine before:animation-delay-4"
+      ></div>
+    </div>
+  {/if}
 </main>
 
 <style>

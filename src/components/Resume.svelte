@@ -1,7 +1,22 @@
 <script lang="ts">
+  import { derived } from 'svelte/store';
   import { lang } from '../stores/lang';
-  import { getResumeData } from '../data/resume';
-  $: data = getResumeData($lang);
+  import { education, experience } from '../stores/store';
+  import { formatData } from '../lib/formatters.ts';
+  let { title, suptitle } = $props();
+
+  const educationData = derived([education, lang], ([$education, $lang]) => {
+    if ($education) {
+      return formatData([$education], $lang)[0];
+    }
+    return null;
+  });
+  const experienceData = derived([experience, lang], ([$experience, $lang]) => {
+    if ($experience) {
+      return formatData([$experience], $lang)[0];
+    }
+    return null;
+  });
 </script>
 
 <div
@@ -11,14 +26,14 @@
   <div class="md:w-4/5 lg:w-3/4">
     <h6
       class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 mb-5 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15"
-      data-backdrop-text={data.section}
+      data-backdrop-text={suptitle}
     >
-      {data.section}
+      {suptitle}
     </h6>
     <h2
       class="text-3xl lg:text-4xl font-poppins font-semibold mb-3 lg:mb-4 dark:text-white"
     >
-      {data.title}
+      {title}
     </h2>
     <!-- <p class="text-pColor dark:text-white/70">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
@@ -33,7 +48,7 @@
         <i class="bi bi-mortarboard"></i>
       </div>
       <!-- Education box 1 -->
-      {#each data.education as { date, title, institution, logo, link }}
+      {#each $educationData as { date, degree, school_name, school_logo, school_link }}
         <div class="group">
           <div
             class="relative inline-block px-4 py-2 rounded-full border border-black/20 dark:border-white/20 border-dashed font-mono font-medium uppercase text-sm tracking-[0.5px] text-pColor dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition ease-linear duration-100 before:content-[''] before:absolute before:top-1/2 before:left-[-20px] before:w-[20px] before:h-[1px] before:border-t before:border-black/20 dark:before:border-white/20 before:border-dashed after:content-[''] after:absolute after:top-1/2 after:left-[-22px] after:-translate-y-1/2 after:bg-black dark:after:bg-white after:w-[5px] after:h-[5px] after:rounded-full"
@@ -43,19 +58,19 @@
           <h4
             class="font-poppins font-medium text-lg lg:text-xl mt-2 mb-1 lg:mt-3 lg:mb-2 dark:text-white"
           >
-            {title}
+            {degree}
           </h4>
           <div class="institution-image-wrapper">
             <img
               class="rounded-full inline-block mr-2"
-              src={logo}
-              alt={institution}
+              src={school_logo}
+              alt={school_name}
             />
             <a
               rel="noopener noreferrer"
               target="_blank"
-              href={link}
-              class="text-pColor dark:text-white/70">{institution}</a
+              href={school_link}
+              class="text-pColor dark:text-white/70">{school_name}</a
             >
           </div>
         </div>
@@ -67,7 +82,7 @@
       <div class="text-3xl dark:text-white">
         <i class="bi bi-briefcase"></i>
       </div>
-      {#each data.experience as { date, title, company, points, link, logo }}
+      {#each $experienceData as { date, title, company_name, points, company_link, company_logo }}
         <div class="group mb-6">
           <div
             class="relative inline-block px-4 py-2 rounded-full border border-black/20 dark:border-white/20 border-dashed font-mono font-medium uppercase text-sm tracking-[0.5px] text-pColor dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition ease-linear duration-100 before:content-[''] before:absolute before:top-1/2 before:left-[-20px] before:w-[20px] before:h-[1px] before:border-t before:border-black/20 dark:before:border-white/20 before:border-dashed after:content-[''] after:absolute after:top-1/2 after:left-[-22px] after:-translate-y-1/2 after:bg-black dark:after:bg-white after:w-[5px] after:h-[5px] after:rounded-full"
@@ -82,14 +97,14 @@
           <div class="institution-image-wrapper">
             <img
               class="rounded-full inline-block mr-2"
-              src={logo}
-              alt={company}
+              src={company_logo}
+              alt={company_name}
             />
             <a
               rel="noopener noreferrer"
               target="_blank"
-              href={link}
-              class="text-pColor dark:text-white/70">{company}</a
+              href={company_link}
+              class="text-pColor dark:text-white/70">{company_name}</a
             >
           </div>
           <ul class="list-disc pl-5 mt-3 text-pColor dark:text-white/70">

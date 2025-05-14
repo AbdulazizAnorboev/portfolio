@@ -1,9 +1,16 @@
 <script lang="ts">
-  import { lang } from '../stores/lang';
   import { isDark } from '../stores/theme';
-  import { getWorkData } from '../data/work';
-
-  $: works = getWorkData($lang);
+  import { derived } from 'svelte/store';
+  import { projects } from '../stores/store';
+  import { lang } from '../stores/lang';
+  import { formatData } from '../lib/formatters.ts';
+  let { title, suptitle } = $props();
+  const data = derived([projects, lang], ([$projects, $lang]) => {
+    if ($projects) {
+      return formatData([$projects], $lang)[0];
+    }
+    return null;
+  });
 </script>
 
 <div
@@ -13,19 +20,19 @@
   <div class="md:w-4/5 lg:w-3/4">
     <h6
       class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 mb-5 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15"
-      data-backdrop-text={works.section}
+      data-backdrop-text={suptitle}
     >
-      {works.section}
+      {title}
     </h6>
     <h2
       class="text-3xl lg:text-4xl font-poppins font-semibold mb-3 lg:mb-4 dark:text-white"
     >
-      {works.title}
+      {title}
     </h2>
   </div>
   <div class="mt-6 lg:mt-12">
     <div class="portfolio-grid grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-      {#each works.data as { image, name, description, source_code_link }}
+      {#each $data as { image, name, description, source_code_link }}
         <div class={`work-card ${isDark ? 'work-card--dark' : ''}`}>
           <div class="work-image-wrapper">
             <img src={image} alt={name} class="work-image" />
