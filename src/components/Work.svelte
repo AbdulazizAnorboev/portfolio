@@ -32,12 +32,12 @@
   </div>
   <div class="mt-6 lg:mt-12">
     <div class="portfolio-grid grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-      {#each $data as { image, name, description, source_code_link }}
+      {#each $data as { image, name, description, github }}
         <div class={`work-card ${isDark ? 'work-card--dark' : ''}`}>
           <div class="work-image-wrapper">
             <img src={image} alt={name} class="work-image" />
             <a
-              href={source_code_link}
+              href={github}
               target="_blank"
               rel="noopener noreferrer"
               class="github-icon"
