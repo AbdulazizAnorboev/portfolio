@@ -22,6 +22,13 @@
           onclick={() => changeLanguage('kr')}>KR</button
         >
       </li>
+      <li class="list-none inline-block">
+        <button
+          class:lang={$lang === 'uz'}
+          class={`hover:underline dark:text-white`}
+          onclick={() => changeLanguage('uz')}>UZ</button
+        >
+      </li>
     </ul>
     <button
       type="button"

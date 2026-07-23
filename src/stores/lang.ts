@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export type Lang = 'en' | 'kr';
+export type Lang = 'en' | 'kr' | 'uz';
 
 // Read saved language from localStorage or fallback to 'en'
 const savedLang = (localStorage.getItem('lang') as Lang) || 'en';

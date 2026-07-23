@@ -126,10 +126,74 @@ const kr = {
   },
 };
 
+const uz = {
+  about: {
+    title: 'Men haqimda',
+    suptitle: 'Men haqimda',
+  },
+  contact: {
+    title: "Keling, bog'lanamiz",
+    suptitle: "Bog'lanish",
+    phone: 'Telefon',
+    email: 'Email',
+    address: 'Manzil',
+    name: 'Ism',
+    message: 'Xabar',
+    send: 'Xabar yuborish',
+    success: 'Rahmat! Xabaringiz yuborildi.',
+    error: "Xatolik yuz berdi, iltimos qayta urinib ko'ring!",
+    loading: 'Yuborilmoqda...',
+  },
+  nav: [
+    { id: 'about', label: 'Men haqimda' },
+    { id: 'techs', label: 'Texnologiyalar' },
+    { id: 'portfolio', label: 'Loyihalar' },
+    { id: 'experience', label: 'Tajriba' },
+    { id: 'activity', label: 'Faoliyat' },
+    { id: 'education', label: "Ta'lim" },
+    { id: 'publication', label: 'Nashrlar' },
+    { id: 'contact', label: 'Aloqa' },
+  ].map((item) => ({
+    ...item,
+    short: item.label.charAt(0).toUpperCase(),
+  })),
+  resume: {
+    title: "Ta'lim va Tajriba",
+    suptitle: 'Rezyume',
+  },
+  experience: {
+    title: 'Ish tajribam',
+    suptitle: 'Tajriba',
+  },
+  education: {
+    title: "Ta'lim",
+    suptitle: "Ta'lim",
+  },
+  activity: {
+    title: 'Ko‘rgazmalar va konferensiya taqdimotlari',
+    suptitle: 'Faoliyat',
+    exhibition: 'Ko‘rgazma',
+    conference: 'Konferensiya',
+  },
+  techs: {
+    title: 'Men ishlatadigan texnologiyalar',
+    suptitle: 'Texnologiyalar',
+  },
+  portfolio: {
+    title: 'Loyihalarim',
+    suptitle: 'Loyihalar',
+  },
+  publication: {
+    title: 'Nashrlarim',
+    suptitle: 'Nashrlarim',
+    view_paper: 'Maqolani ko‘rish',
+  },
+};
+
+const dictionaries: Record<string, any> = { en, kr, uz };
+
 export function getSectionData(section: Section, lang: Lang) {
-  if (lang == Lang.en) {
-    return en[section];
-  } else {
-    return kr[section];
-  }
+  const dict = dictionaries[lang] ?? en;
+  // Fall back to English for any label not present in the chosen language.
+  return dict[section] ?? en[section];
 }
