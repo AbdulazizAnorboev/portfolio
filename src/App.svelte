@@ -2,11 +2,12 @@
   import { onMount, tick } from 'svelte';
   import About from './components/About.svelte';
   import Activity from './components/Activity.svelte';
+  import Experience from './components/Experience.svelte';
+  import Education from './components/Education.svelte';
   import Contact from './components/Contact.svelte';
   import Header from './components/Header.svelte';
   import SidebarNav from './components/Nav.svelte';
   import Publication from './components/Publication.svelte';
-  import Resume from './components/Resume.svelte';
   import Techs from './components/Techs.svelte';
   import Work from './components/Work.svelte';
   import Socials from './components/Socials.svelte';
@@ -25,9 +26,10 @@
     'about',
     'techs',
     'portfolio',
-    'publication',
-    'resume',
+    'experience',
     'activity',
+    'education',
+    'publication',
     'contact',
   ];
 
@@ -122,9 +124,10 @@
           <About {...getSectionData(Section.about, $lang)} />
           <Techs {...getSectionData(Section.techs, $lang)} />
           <Work {...getSectionData(Section.portfolio, $lang)} />
-          <Publication {...getSectionData(Section.publication, $lang)} />
-          <Resume {...getSectionData(Section.resume, $lang)} />
+          <Experience {...getSectionData(Section.experience, $lang)} />
           <Activity {...getSectionData(Section.activity, $lang)} />
+          <Education {...getSectionData(Section.education, $lang)} />
+          <Publication {...getSectionData(Section.publication, $lang)} />
           <Contact {...getSectionData(Section.contact, $lang)} />
         </div>
       </div>

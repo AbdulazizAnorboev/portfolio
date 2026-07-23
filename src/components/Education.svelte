@@ -1,0 +1,92 @@
+<script lang="ts">
+  import { derived } from 'svelte/store';
+  import { lang } from '../stores/lang';
+  import { education } from '../stores/store';
+  import { formatData } from '../lib/formatters.ts';
+  let { title, suptitle } = $props();
+
+  const educationData = derived([education, lang], ([$education, $lang]) => {
+    if ($education) {
+      return formatData([$education], $lang)[0];
+    }
+    return [];
+  });
+</script>
+
+<div
+  id="education"
+  class="section bg-white dark:bg-boxDark rounded-lg px-6 py-8 md:px-8 md:py-10 lg:p-12 shadow-sectionBoxShadow hover:shadow-sectionBoxShadowHover transition ease-out duration-[160ms]"
+>
+  <div class="md:w-4/5 lg:w-3/4">
+    <h6
+      class="font-mono font-medium uppercase text-sm tracking-wider relative pt-4 mb-5 dark:text-white before:content-['//'] before:pr-2 after:content-[attr(data-backdrop-text)] after:absolute after:top-0 after:left-0 after:font-poppins after:font-bold after:uppercase after:text-4xl after:opacity-15"
+      data-backdrop-text={suptitle}
+    >
+      {suptitle}
+    </h6>
+    <h2
+      class="text-3xl lg:text-4xl font-poppins font-semibold mb-3 lg:mb-4 dark:text-white"
+    >
+      {title}
+    </h2>
+  </div>
+
+  <div class="mt-6">
+    <div
+      class="relative pl-5 space-y-7 before:content-[''] before:absolute before:top-0 before:left-0 before:w-[1px] before:h-full before:border-l before:border-black/20 dark:before:border-white/20 before:border-dashed"
+    >
+      <div class="text-3xl dark:text-white">
+        <i class="bi bi-mortarboard"></i>
+      </div>
+      {#each $educationData as { date, degree, school_name, school_logo, school_link }}
+        <div class="group">
+          <div
+            class="relative inline-block px-4 py-2 rounded-full border border-black/20 dark:border-white/20 border-dashed font-mono font-medium uppercase text-sm tracking-[0.5px] text-pColor dark:text-white/70 group-hover:text-black dark:group-hover:text-white transition ease-linear duration-100 before:content-[''] before:absolute before:top-1/2 before:left-[-20px] before:w-[20px] before:h-[1px] before:border-t before:border-black/20 dark:before:border-white/20 before:border-dashed after:content-[''] after:absolute after:top-1/2 after:left-[-22px] after:-translate-y-1/2 after:bg-black dark:after:bg-white after:w-[5px] after:h-[5px] after:rounded-full"
+          >
+            {date}
+          </div>
+          <h4
+            class="font-poppins font-medium text-lg lg:text-xl mt-2 mb-1 lg:mt-3 lg:mb-2 dark:text-white"
+          >
+            {degree}
+          </h4>
+          <div class="institution-image-wrapper">
+            <img
+              class="rounded-full inline-block mr-2"
+              src={school_logo}
+              alt={school_name}
+            />
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href={school_link}
+              class="text-pColor dark:text-white/70">{school_name}</a
+            >
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+</div>
+
+<style>
+  .institution-image-wrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+  .institution-image-wrapper img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    border: 1px solid #00000033;
+    padding: 2px;
+  }
+  .institution-image-wrapper a {
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: 600;
+  }
+</style>

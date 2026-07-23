@@ -10,6 +10,8 @@ export enum Section {
   portfolio = 'portfolio',
   publication = 'publication',
   resume = 'resume',
+  experience = 'experience',
+  education = 'education',
   activity = 'activity',
   contact = 'contact',
 }

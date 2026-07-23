@@ -23,14 +23,23 @@ const en = {
     { id: 'about', label: 'About Me', short: 'A' },
     { id: 'techs', label: 'Technologies', short: 'T' },
     { id: 'portfolio', label: 'Portfolio', short: 'P' },
-    { id: 'publication', label: 'Publications', short: 'P' },
-    { id: 'resume', label: 'Resume', short: 'R' },
+    { id: 'experience', label: 'Experience', short: 'E' },
     { id: 'activity', label: 'Activities', short: 'A' },
+    { id: 'education', label: 'Education', short: 'E' },
+    { id: 'publication', label: 'Publications', short: 'P' },
     { id: 'contact', label: 'Contact', short: 'C' },
   ],
   resume: {
     title: 'Education & Experience',
     suptitle: 'Resume',
+  },
+  experience: {
+    title: 'Where I Have Worked',
+    suptitle: 'Experience',
+  },
+  education: {
+    title: 'Academic Background',
+    suptitle: 'Education',
   },
   activity: {
     title: 'Exhibitions & Conference Presentations',
@@ -75,9 +84,10 @@ const kr = {
     { id: 'about', label: '소개' },
     { id: 'techs', label: '기술 스택' },
     { id: 'portfolio', label: '포트폴리오' },
-    { id: 'publication', label: '발표 및 논문' },
-    { id: 'resume', label: '이력서' },
+    { id: 'experience', label: '경력' },
     { id: 'activity', label: '대외활동' },
+    { id: 'education', label: '학력' },
+    { id: 'publication', label: '발표 및 논문' },
     { id: 'contact', label: '연락처' },
   ].map((item) => ({
     ...item,
@@ -86,6 +96,14 @@ const kr = {
   resume: {
     title: '박사 연구원 – 인공지능 및 컴퓨터 비전',
     suptitle: '이력서',
+  },
+  experience: {
+    title: '경력',
+    suptitle: '경력',
+  },
+  education: {
+    title: '학력',
+    suptitle: '학력',
   },
   activity: {
     title: '전시회 및 학회 발표',
