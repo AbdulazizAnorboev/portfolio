@@ -58,3 +58,15 @@ export const experienceQuery = `*[_type == "experience"] | order(orderRank) {
 //       link,
 //       "icon": coalesce(icon.upload.asset->url, icon.url)
 //     }`;
+
+export const activitiesQuery = `*[_type == "activity"] | order(orderRank) {
+  kind,
+  "title": title,
+  "role": role,
+  "organizer": organizer,
+  "location": location,
+  "date": date,
+  "points": points,
+  link,
+  logo
+}`;

@@ -25,11 +25,18 @@ const en = {
     { id: 'portfolio', label: 'Portfolio', short: 'P' },
     { id: 'publication', label: 'Publications', short: 'P' },
     { id: 'resume', label: 'Resume', short: 'R' },
+    { id: 'activity', label: 'Activities', short: 'A' },
     { id: 'contact', label: 'Contact', short: 'C' },
   ],
   resume: {
     title: 'Education & Experience',
     suptitle: 'Resume',
+  },
+  activity: {
+    title: 'Exhibitions & Conference Presentations',
+    suptitle: 'Activities',
+    exhibition: 'Exhibition',
+    conference: 'Conference',
   },
   techs: {
     title: 'My Technologies',
@@ -70,6 +77,7 @@ const kr = {
     { id: 'portfolio', label: '포트폴리오' },
     { id: 'publication', label: '발표 및 논문' },
     { id: 'resume', label: '이력서' },
+    { id: 'activity', label: '대외활동' },
     { id: 'contact', label: '연락처' },
   ].map((item) => ({
     ...item,
@@ -78,6 +86,12 @@ const kr = {
   resume: {
     title: '박사 연구원 – 인공지능 및 컴퓨터 비전',
     suptitle: '이력서',
+  },
+  activity: {
+    title: '전시회 및 학회 발표',
+    suptitle: '대외활동',
+    exhibition: '전시회',
+    conference: '학회 발표',
   },
   techs: {
     title: '사용 기술',

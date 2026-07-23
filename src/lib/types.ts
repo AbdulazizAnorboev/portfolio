@@ -10,6 +10,7 @@ export enum Section {
   portfolio = 'portfolio',
   publication = 'publication',
   resume = 'resume',
+  activity = 'activity',
   contact = 'contact',
 }
 
@@ -59,4 +60,16 @@ type Organization = {
   name: string;
   logo: string;
   link: string;
+};
+
+export type Activity = {
+  kind: string;
+  title: string;
+  role: string;
+  organizer: string;
+  location: string;
+  date: string;
+  points: string[];
+  link: string;
+  logo: string;
 };

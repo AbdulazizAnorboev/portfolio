@@ -7,6 +7,7 @@ import {
   publicationsQuery,
   techQuery,
   userQuery,
+  activitiesQuery,
 } from '../lib/queries.js';
 import {
   Education,
@@ -15,6 +16,7 @@ import {
   Publication,
   Tech,
   User,
+  Activity,
 } from '../lib/types.js';
 
 const user = writable<User | null>(null); // Initialize as null for clarity
@@ -23,6 +25,7 @@ const projects = writable<Project[]>([]); // Initialize as null for clarity
 const publications = writable<Publication[]>([]); // Initialize as null for clarity
 const education = writable<Education[]>([]); // Initialize as null for clarity
 const experience = writable<Experience[]>([]); // Initialize as null for clarity
+const activities = writable<Activity[]>([]);
 const loading = writable(true);
 
 async function fetchData() {
@@ -33,6 +36,7 @@ async function fetchData() {
     publicationsResult,
     educationResult,
     experienceResult,
+    activitiesResult,
   ] = await Promise.all([
     sanityClient.fetch(userQuery),
     sanityClient.fetch(techQuery),
@@ -40,6 +44,7 @@ async function fetchData() {
     sanityClient.fetch(publicationsQuery),
     sanityClient.fetch(educationQuery),
     sanityClient.fetch(experienceQuery),
+    sanityClient.fetch(activitiesQuery),
   ]);
   user.set(userResult);
   techs.set(techsResult);
@@ -47,6 +52,7 @@ async function fetchData() {
   publications.set(publicationsResult);
   education.set(educationResult);
   experience.set(experienceResult);
+  activities.set(activitiesResult);
   loading.set(false);
 }
 
@@ -57,6 +63,7 @@ export {
   publications,
   education,
   experience,
+  activities,
   loading,
   fetchData,
 };

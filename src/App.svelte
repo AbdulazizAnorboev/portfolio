@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, tick } from 'svelte';
   import About from './components/About.svelte';
+  import Activity from './components/Activity.svelte';
   import Contact from './components/Contact.svelte';
   import Header from './components/Header.svelte';
   import SidebarNav from './components/Nav.svelte';
@@ -26,6 +27,7 @@
     'portfolio',
     'publication',
     'resume',
+    'activity',
     'contact',
   ];
 
@@ -122,6 +124,7 @@
           <Work {...getSectionData(Section.portfolio, $lang)} />
           <Publication {...getSectionData(Section.publication, $lang)} />
           <Resume {...getSectionData(Section.resume, $lang)} />
+          <Activity {...getSectionData(Section.activity, $lang)} />
           <Contact {...getSectionData(Section.contact, $lang)} />
         </div>
       </div>
