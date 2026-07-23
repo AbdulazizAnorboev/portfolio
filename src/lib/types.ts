@@ -2,6 +2,7 @@ export enum Lang {
   en = 'en',
   kr = 'kr',
   uz = 'uz',
+  ru = 'ru',
 }
 
 export enum Section {

@@ -2,10 +2,11 @@ type LocalizedValue<T = string> = {
   en?: T;
   kr?: T;
   uz?: T;
+  ru?: T;
   [key: string]: any;
 };
 
-export function formatData(obj: any, lang: 'en' | 'kr' | 'uz'): any {
+export function formatData(obj: any, lang: 'en' | 'kr' | 'uz' | 'ru'): any {
   if (Array.isArray(obj)) {
     return obj.map((item) => formatData(item, lang)); // Recursively call for each item in the array
   }
@@ -19,7 +20,7 @@ export function formatData(obj: any, lang: 'en' | 'kr' | 'uz'): any {
       if (
         typeof value === 'object' &&
         value !== null &&
-        ('en' in value || 'kr' in value || 'uz' in value)
+        ('en' in value || 'kr' in value || 'uz' in value || 'ru' in value)
       ) {
         // Use the requested language, falling back to English (then Korean)
         // so a field not yet translated never renders as `undefined`.

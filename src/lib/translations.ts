@@ -190,7 +190,71 @@ const uz = {
   },
 };
 
-const dictionaries: Record<string, any> = { en, kr, uz };
+const ru = {
+  about: {
+    title: 'Обо мне',
+    suptitle: 'Обо мне',
+  },
+  contact: {
+    title: 'Свяжитесь со мной',
+    suptitle: 'Контакты',
+    phone: 'Телефон',
+    email: 'Email',
+    address: 'Адрес',
+    name: 'Имя',
+    message: 'Сообщение',
+    send: 'Отправить сообщение',
+    success: 'Спасибо! Ваше сообщение отправлено.',
+    error: 'Что-то пошло не так, попробуйте ещё раз!',
+    loading: 'Отправка...',
+  },
+  nav: [
+    { id: 'about', label: 'Обо мне' },
+    { id: 'techs', label: 'Технологии' },
+    { id: 'portfolio', label: 'Проекты' },
+    { id: 'experience', label: 'Опыт' },
+    { id: 'activity', label: 'Деятельность' },
+    { id: 'education', label: 'Образование' },
+    { id: 'publication', label: 'Публикации' },
+    { id: 'contact', label: 'Контакты' },
+  ].map((item) => ({
+    ...item,
+    short: item.label.charAt(0).toUpperCase(),
+  })),
+  resume: {
+    title: 'Образование и опыт',
+    suptitle: 'Резюме',
+  },
+  experience: {
+    title: 'Где я работал',
+    suptitle: 'Опыт',
+  },
+  education: {
+    title: 'Образование',
+    suptitle: 'Образование',
+  },
+  activity: {
+    title: 'Выставки и доклады на конференциях',
+    suptitle: 'Деятельность',
+    exhibition: 'Выставка',
+    conference: 'Конференция',
+  },
+  techs: {
+    title: 'Мои технологии',
+    suptitle: 'Технологии',
+  },
+  portfolio: {
+    title: 'Мои проекты',
+    suptitle: 'Проекты',
+  },
+  publication: {
+    title: 'Мои публикации',
+    suptitle: 'Мои публикации',
+    view_paper: 'Открыть статью',
+  },
+};
+
+const dictionaries: Record<string, any> = { en, kr, uz, ru };
 
 export function getSectionData(section: Section, lang: Lang) {
   const dict = dictionaries[lang] ?? en;
